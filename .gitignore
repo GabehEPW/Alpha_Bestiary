@@ -1,0 +1,58 @@
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+## Visual Studio 2019/2022
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+
+## TModLoader mod builds
+*.tmod
+build/
+
+## Logs
+*.log
+logs/
+
+## Runtime data
+Properties/
+
+## Windows junk
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## .NET Core Scaffolding
+**/wwwroot/
+
+## NuGet
+packages/
+
+## Dependencies
+/**/*.dll
+!/**/*.dll.config
+
+## OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

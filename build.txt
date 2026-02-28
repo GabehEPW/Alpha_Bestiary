@@ -1,0 +1,3 @@
+displayName = Bestiario do ALFA
+author = Gabriel Eduardo Philippsen Wandscheer (Gabeh)
+version = 0.1
