@@ -1,3 +1,4 @@
+name = AlphaBestiary
 displayName = AlphaBestiary
 author = Gabriel Eduardo Philippsen Wandscheer (Gabeh)
 version = 0.1
