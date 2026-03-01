@@ -1,39 +1,49 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace AlphaBestiary.Items
 {
-    public class BestiarySword : ModItem
+    internal class BestiarySword : ModItem
     {
         public override void SetStaticDefaults()
         {
-            // Nome e tooltip agora são feitos via Localization (arquivo .hjson).
-            // Deixe esse método vazio ou só coisas que não sejam texto.
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
+
         public override void SetDefaults()
         {
-            Item.DamageType = DamageClass.Melee; // tipo de dano
-
-            Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.Rapier; // 3 ≈ estilo de esfaqueada
-            Item.useAnimation = 18;
-            Item.useTime = 11;
-            Item.knockBack = 4f;
+            // Hitbox
             Item.width = 32;
-            Item.height = 42;
-            Item.rare = ItemRarityID.Blue;
-            Item.UseSound = SoundID.Item1;
-            Item.value = 0;
+            Item.height = 32;
+
+            // Use and Animation Style
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.autoReuse = true;
+            
+            // Damage Values
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 20;
+            Item.knockBack = 3.5f;
+            Item.crit = 5;
+
+            // Misc
+            Item.value = Item.buyPrice(silver: 80, copper: 50);
+            Item.rare = ItemRarityID.Blue;
+
+            // Sound
+            Item.UseSound = SoundID.Item1;
         }
 
         public override void AddRecipes()
         {
-            Recipe recipe = CreateRecipe(); // jeito novo de criar receita
-            recipe.AddIngredient(ItemID.CrimtaneBar, 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.Register(); // substitui SetResult + AddRecipe
+            CreateRecipe()
+                .AddIngredient(ItemID.IronBar, 8)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
