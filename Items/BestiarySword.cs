@@ -11,7 +11,6 @@ namespace AlphaBestiary.Items
             // Nome e tooltip agora são feitos via Localization (arquivo .hjson).
             // Deixe esse método vazio ou só coisas que não sejam texto.
         }
-
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Melee; // tipo de dano
