@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BestiarySword.Items
+namespace AlphaBestiary.Items
 {
     public class BestiarySword : ModItem
     {
