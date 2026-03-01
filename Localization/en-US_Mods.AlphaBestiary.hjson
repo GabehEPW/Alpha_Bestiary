@@ -1,1 +1,6 @@
-
+Items: {
+	BestiarySword: {
+		DisplayName: Bestiary Sword
+		Tooltip: ""
+	}
+}
