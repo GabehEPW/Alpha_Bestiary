@@ -17,27 +17,24 @@ namespace AlphaBestiary.Items
 
         public override void SetDefaults()
         {
-            // Tamanho do hitbox da sprite
             Item.width = 32;
             Item.height = 32;
 
-            // Estilo de uso (espada que balança)
+            // ajuste fino de tamanho visual
+            Item.scale = 1.2f; // testa 0.8; se ficar pequena, sobe pra 0.9 ou 1.0
+
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 20;       // tempo de uso (menor = mais rápido)
-            Item.useAnimation = 20;  // duração da animação
-            Item.autoReuse = true;   // segura o botão pra bater em loop
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.autoReuse = true;
 
-            // Valores de dano
-            Item.DamageType = DamageClass.Melee; // tipo melee
-            Item.damage = 20;                    // dano base
-            Item.knockBack = 3.5f;               // recuo
-            Item.crit = 5;                       // chance de crítico base
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 20;
+            Item.knockBack = 3.5f;
+            Item.crit = 5;
 
-            // Valor e raridade do item
             Item.value = Item.buyPrice(silver: 80, copper: 50);
             Item.rare = ItemRarityID.Blue;
-
-            // Som ao usar
             Item.UseSound = SoundID.Item1;
         }
 
