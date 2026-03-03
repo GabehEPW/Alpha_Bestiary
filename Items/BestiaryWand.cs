@@ -13,6 +13,9 @@ namespace AlphaBestiary.Items
         {
             // Quantas cópias precisa sacrificar pro catálogo criativo
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+
+            // Faz o jogo usar a animação de staff (segurando acima da cabeça)
+            Item.staff[Type] = true;
         }
 
         public override void SetDefaults()
@@ -21,7 +24,7 @@ namespace AlphaBestiary.Items
             Item.width = 28;
             Item.height = 28;
 
-            // Cajado/varinha que atira projéteis
+            // Estilo de uso: arma que atira projétil
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = 20;
             Item.useAnimation = 20;
@@ -29,17 +32,17 @@ namespace AlphaBestiary.Items
 
             // Tipo de dano: mágico
             Item.DamageType = DamageClass.Magic;
-            Item.noMelee = true;   // não dá dano de contato
-            Item.mana = 8;         // mana por uso
+            Item.noMelee = true;   // não bate corpo a corpo
+            Item.mana = 8;
 
             Item.damage = 24;
             Item.knockBack = 3.2f;
 
             // Projétil disparado (estrela cadente vanilla)
             Item.shoot = ProjectileID.FallingStar;
-            Item.shootSpeed = 8f; // 1f é muito devagar pra magia, 8f fica mais normal
+            Item.shootSpeed = 8f;
 
-            // Som de varinha mágica
+            // Som de varinha/cajado
             Item.UseSound = SoundID.Item71;
 
             // Valor e raridade
@@ -52,14 +55,15 @@ namespace AlphaBestiary.Items
         {
             var modPlayer = player.GetModPlayer<AlphaBestiaryPlayer>();
 
+            // Nível do cajado para ESTE jogador
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            // Exemplo: +3% de dano POR nível
+            // +3% de dano por nível
             float bonusPerLevel = 0.03f;
             damage *= 1f + level * bonusPerLevel;
         }
 
-        // Tooltip mostrando o nível do cajado e explicação
+        // Tooltip mostrando o nível do cajado e como upar
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<AlphaBestiaryPlayer>();
