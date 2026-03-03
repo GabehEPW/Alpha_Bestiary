@@ -21,7 +21,7 @@ namespace AlphaBestiary.Items
             Item.height = 32;
 
             // ajuste fino de tamanho visual
-            Item.scale = 1.2f; // testa 0.8; se ficar pequena, sobe pra 0.9 ou 1.0
+            Item.scale = 1.2f;
 
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 20;
@@ -38,15 +38,15 @@ namespace AlphaBestiary.Items
             Item.UseSound = SoundID.Item1;
         }
 
-        // Aqui aplicamos o BÔNUS de dano baseado no "nível" da arma
+        // Aqui aplicamos o bônus de dano baseado no nível da arma
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             var modPlayer = player.GetModPlayer<AlphaBestiaryPlayer>();
 
-            // Pega o nível da arma pra ESTE jogador
+            // Pega o nível da arma pra este jogador
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            // Exemplo: +3% de dano POR nível
+            // Exemplo: +3% de dano por nível
             // nível 0 -> 1.00x    (sem bônus)
             // nível 1 -> 1.03x
             // nível 10 -> 1.30x
