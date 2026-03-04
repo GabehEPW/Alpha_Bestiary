@@ -8,4 +8,9 @@ Items: {
 		DisplayName: Bestiary Wand
 		Tooltip: ""
 	}
+
+	BestiaryGun: {
+		DisplayName: Bestiary Gun
+		Tooltip: ""
+	}
 }
