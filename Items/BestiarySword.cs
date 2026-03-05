@@ -21,7 +21,7 @@ namespace AlphaBestiary.Items
             Item.height = 32;
 
             // ajuste fino de tamanho visual
-            Item.scale = 1.2f;
+            Item.scale = 0.8f;
 
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 20;
