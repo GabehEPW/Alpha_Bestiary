@@ -57,8 +57,8 @@ namespace AlphaBestiary.Items
 
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            // Ex.: +2% de dano por nível (ranged costuma atirar muito rápido)
-            float bonusPerLevel = 0.02f;
+            // Ex.: +3% de dano por nível (ranged costuma atirar muito rápido)
+            float bonusPerLevel = 0.03f;
             damage *= 1f + level * bonusPerLevel;
         }
 
