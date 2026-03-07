@@ -18,8 +18,9 @@ namespace AlphaBestiary.Items
         public override void SetDefaults()
         {
             // Tamanho do hitbox da sprite (metralhadora ~30x15)
-            Item.width = 32;
-            Item.height = 16;
+            Item.width = 512;  // 1024/2
+            Item.height = 341; // 683/2
+            Item.scale = 0.05f; // reduz drasticamente o tamanho visual
 
             // Arma de fogo
             Item.useStyle = ItemUseStyleID.Shoot; // segura e atira
