@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using AlphaBestiary.Common.Players;
 
@@ -11,59 +12,63 @@ namespace AlphaBestiary.Items
     {
         public override void SetStaticDefaults()
         {
-            // Quantas cópias precisa sacrificar pro catálogo criativo
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
         {
-            // Tamanho do hitbox da sprite (metralhadora ~30x15)
-            Item.width = 512;  // 1024/2
-            Item.height = 341; // 683/2
-            Item.scale = 0.05f; // reduz drasticamente o tamanho visual
-
-            // Arma de fogo
-            Item.useStyle = ItemUseStyleID.Shoot; // segura e atira
-            Item.useTime = 5;                     // tempo entre tiros (menor = mais rápido)
-            Item.useAnimation = 5;
-            Item.autoReuse = true;                // segurar botão pra metralhar
-
-            Item.DamageType = DamageClass.Ranged;
-            Item.noMelee = true;                  // não bate corpo a corpo
+            // Use valores compatíveis com o tamanho REAL da sprite no jogo.
+            // Para gun estilo Terraria, o ideal é a textura final ser ~30x15.
+            Item.width = 30;
+            Item.height = 15;
 
             Item.damage = 10;
+            Item.DamageType = DamageClass.Ranged;
             Item.knockBack = 1.5f;
             Item.crit = 4;
 
-            // Usa munição de bala
-            Item.useAmmo = AmmoID.Bullet;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
+            Item.reuseDelay = 0;
+            Item.autoReuse = true;
+            Item.useTurn = false;
 
-            // Projétil padrão (caso não tenha munição especial)
+            Item.noMelee = true;
+            Item.noUseGraphic = false;
+
+            Item.useAmmo = AmmoID.Bullet;
             Item.shoot = ProjectileID.Bullet;
             Item.shootSpeed = 10f;
 
-            Item.UseSound = SoundID.Item11;       // som de arma de fogo
+            Item.UseSound = SoundID.Item11;
 
             Item.value = Item.buyPrice(silver: 80);
             Item.rare = ItemRarityID.Blue;
 
-            // Recuo visual (como o player segura a arma)
+            // Para guns, não conte com isso para “encolher” visualmente a sprite.
             Item.scale = 1f;
         }
 
-        // Bônus de dano baseado no nível da metralhadora
+        // Ajusta a posição da arma na mão do player.
+        // Isso é o jeito correto para itens com useStyle = Shoot.
+        public override Vector2? HoldoutOffset()
+        {
+            // Ajuste fino:
+            // X negativo puxa a arma mais para trás
+            // Y negativo sobe a arma, Y positivo desce
+            return new Vector2(-6f, 0f);
+        }
+
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             var modPlayer = player.GetModPlayer<AlphaBestiaryPlayer>();
-
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            // Ex.: +3% de dano por nível (ranged costuma atirar muito rápido)
             float bonusPerLevel = 0.03f;
             damage *= 1f + level * bonusPerLevel;
         }
 
-        // Tooltip mostrando nível e explicação
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             var modPlayer = Main.LocalPlayer.GetModPlayer<AlphaBestiaryPlayer>();
@@ -78,7 +83,6 @@ namespace AlphaBestiary.Items
 
         public override void AddRecipes()
         {
-            // Receita exemplo (ajusta como quiser)
             CreateRecipe()
                 .AddIngredient(ItemID.IllegalGunParts, 1)
                 .AddIngredient(ItemID.IronBar, 10)
