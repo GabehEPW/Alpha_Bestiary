@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 using Terraria.GameContent.Creative;
 using AlphaBestiary.Common.Players;
 
@@ -10,6 +12,10 @@ namespace AlphaBestiary.Items
 {
     internal class BestiaryGun : ModItem
     {
+        // Ajuste essa escala até a sprite ficar visualmente aceitável.
+        // Como sua imagem original está enorme, esse valor deve ser bem pequeno.
+        private const float ForcedDrawScale = 0.03f;
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -17,8 +23,6 @@ namespace AlphaBestiary.Items
 
         public override void SetDefaults()
         {
-            // Use valores compatíveis com o tamanho REAL da sprite no jogo.
-            // Para gun estilo Terraria, o ideal é a textura final ser ~30x15.
             Item.width = 30;
             Item.height = 15;
 
@@ -46,17 +50,11 @@ namespace AlphaBestiary.Items
             Item.value = Item.buyPrice(silver: 80);
             Item.rare = ItemRarityID.Blue;
 
-            // Para guns, não conte com isso para “encolher” visualmente a sprite.
             Item.scale = 1f;
         }
 
-        // Ajusta a posição da arma na mão do player.
-        // Isso é o jeito correto para itens com useStyle = Shoot.
         public override Vector2? HoldoutOffset()
         {
-            // Ajuste fino:
-            // X negativo puxa a arma mais para trás
-            // Y negativo sobe a arma, Y positivo desce
             return new Vector2(-6f, 0f);
         }
 
@@ -88,6 +86,61 @@ namespace AlphaBestiary.Items
                 .AddIngredient(ItemID.IronBar, 10)
                 .AddTile(TileID.Anvils)
                 .Register();
+        }
+
+        // Escala no inventário
+        public override bool PreDrawInInventory(
+            SpriteBatch spriteBatch,
+            Vector2 position,
+            Rectangle frame,
+            Color drawColor,
+            Color itemColor,
+            Vector2 origin,
+            float scale)
+        {
+            Texture2D texture = TextureAssets.Item[Type].Value;
+
+            spriteBatch.Draw(
+                texture,
+                position,
+                null,
+                drawColor,
+                0f,
+                texture.Size() * 0.5f,
+                ForcedDrawScale,
+                SpriteEffects.None,
+                0f
+            );
+
+            return false; // impede o draw vanilla
+        }
+
+        // Escala quando o item está dropado no mundo
+        public override bool PreDrawInWorld(
+            SpriteBatch spriteBatch,
+            Color lightColor,
+            Color alphaColor,
+            ref float rotation,
+            ref float scale,
+            int whoAmI)
+        {
+            Texture2D texture = TextureAssets.Item[Type].Value;
+
+            Vector2 position = Item.Center - Main.screenPosition;
+
+            spriteBatch.Draw(
+                texture,
+                position,
+                null,
+                lightColor,
+                rotation,
+                texture.Size() * 0.5f,
+                ForcedDrawScale,
+                SpriteEffects.None,
+                0f
+            );
+
+            return false; // impede o draw vanilla
         }
     }
 }
