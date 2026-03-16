@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -7,6 +6,7 @@ namespace AlphaBestiary.Common.Players
 {
     public class AlphaBestiaryPlayer : ModPlayer
     {
+        // item.type da arma -> conjunto de npc.type já derrotados com ela
         public Dictionary<int, HashSet<int>> killsPerWeapon = new();
 
         public int GetWeaponLevel(int itemType)
@@ -22,7 +22,7 @@ namespace AlphaBestiary.Common.Players
             return GetWeaponLevel(itemType);
         }
 
-        // Retorna true se foi uma kill nova
+        // Retorna true se foi um tipo novo de monstro
         public bool RegisterKill(int itemType, int npcType)
         {
             if (!killsPerWeapon.TryGetValue(itemType, out var set))
@@ -40,7 +40,8 @@ namespace AlphaBestiary.Common.Players
 
             foreach (var kv in killsPerWeapon)
             {
-                list.Add(new TagCompound {
+                list.Add(new TagCompound
+                {
                     ["itemType"] = kv.Key,
                     ["npcTypes"] = new List<int>(kv.Value)
                 });

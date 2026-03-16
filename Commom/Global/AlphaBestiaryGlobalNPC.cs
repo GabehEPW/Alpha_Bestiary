@@ -37,6 +37,10 @@ namespace AlphaBestiary.Common.Global
             if (npc.type <= NPCID.None)
                 return false;
 
+            // Descomente se quiser impedir farm com estátua
+            // if (npc.SpawnedFromStatue)
+            //     return false;
+
             return true;
         }
 
@@ -45,6 +49,9 @@ namespace AlphaBestiary.Common.Global
             base.OnHitByItem(npc, player, item, hit, damageDone);
 
             if (!CanCountForBestiaryProgress(npc))
+                return;
+
+            if (player == null || !player.active)
                 return;
 
             if (IsValidModWeapon(item))
@@ -61,20 +68,23 @@ namespace AlphaBestiary.Common.Global
             if (!CanCountForBestiaryProgress(npc))
                 return;
 
-            if (projectile.owner < 0 || projectile.owner >= Main.maxPlayers)
+            if (projectile == null || !projectile.active)
                 return;
 
-            Player player = Main.player[projectile.owner];
+            var globalProj = projectile.GetGlobalProjectile<AlphaBestiaryGlobalProjectile>();
+
+            if (globalProj.sourcePlayerWhoAmI < 0 || globalProj.sourcePlayerWhoAmI >= Main.maxPlayers)
+                return;
+
+            if (globalProj.sourceItemType == 0)
+                return;
+
+            Player player = Main.player[globalProj.sourcePlayerWhoAmI];
             if (player == null || !player.active)
                 return;
 
-            Item item = player.HeldItem;
-
-            if (IsValidModWeapon(item))
-            {
-                lastHitItemType = item.type;
-                lastHitPlayerWhoAmI = player.whoAmI;
-            }
+            lastHitItemType = globalProj.sourceItemType;
+            lastHitPlayerWhoAmI = globalProj.sourcePlayerWhoAmI;
         }
 
         public override void OnKill(NPC npc)

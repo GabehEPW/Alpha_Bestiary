@@ -6,14 +6,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent;
 using Terraria.GameContent.Creative;
+using Terraria.DataStructures;
 using AlphaBestiary.Common.Players;
+using AlphaBestiary.Common.Global;
 
 namespace AlphaBestiary.Items
 {
     internal class BestiaryGun : ModItem
     {
-        // Ajuste essa escala até a sprite ficar visualmente aceitável.
-        // Como sua imagem original está enorme, esse valor deve ser bem pequeno.
         private const float ForcedDrawScale = 0.03f;
 
         public override void SetStaticDefaults()
@@ -88,7 +88,34 @@ namespace AlphaBestiary.Items
                 .Register();
         }
 
-        // Escala no inventário
+        public override bool Shoot(
+            Player player,
+            EntitySource_ItemUse_WithAmmo source,
+            Vector2 position,
+            Vector2 velocity,
+            int type,
+            int damage,
+            float knockback)
+        {
+            int projIndex = Projectile.NewProjectile(
+                source,
+                position,
+                velocity,
+                type,
+                damage,
+                knockback,
+                player.whoAmI
+            );
+
+            Projectile proj = Main.projectile[projIndex];
+            var globalProj = proj.GetGlobalProjectile<AlphaBestiaryGlobalProjectile>();
+
+            globalProj.sourceItemType = Item.type;
+            globalProj.sourcePlayerWhoAmI = player.whoAmI;
+
+            return false;
+        }
+
         public override bool PreDrawInInventory(
             SpriteBatch spriteBatch,
             Vector2 position,
@@ -112,10 +139,9 @@ namespace AlphaBestiary.Items
                 0f
             );
 
-            return false; // impede o draw vanilla
+            return false;
         }
 
-        // Escala quando o item está dropado no mundo
         public override bool PreDrawInWorld(
             SpriteBatch spriteBatch,
             Color lightColor,
@@ -125,7 +151,6 @@ namespace AlphaBestiary.Items
             int whoAmI)
         {
             Texture2D texture = TextureAssets.Item[Type].Value;
-
             Vector2 position = Item.Center - Main.screenPosition;
 
             spriteBatch.Draw(
@@ -140,7 +165,7 @@ namespace AlphaBestiary.Items
                 0f
             );
 
-            return false; // impede o draw vanilla
+            return false;
         }
     }
 }
