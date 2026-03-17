@@ -2,46 +2,47 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.GameContent.Creative;
-using AlphaBestiary.Common.Players;
+using Terraria.ID;
+using Terraria.ModLoader;
 using AlphaBestiary.Common.Global;
+using AlphaBestiary.Common.Players;
+using AlphaBestiary.Projectiles;
 
 namespace AlphaBestiary.Items
 {
-    internal class BestiaryWand : ModItem
+    internal class BestiaryYoyo : ModItem
     {
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
-            Item.staff[Type] = true;
+            ItemID.Sets.Yoyo[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 28;
+            Item.width = 24;
+            Item.height = 24;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
             Item.autoReuse = true;
 
-            Item.DamageType = DamageClass.Magic;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 18;
+            Item.knockBack = 2.5f;
+            Item.crit = 4;
+
             Item.noMelee = true;
-            Item.mana = 8;
+            Item.noUseGraphic = true;
+            Item.channel = true;
 
-            Item.damage = 24;
-            Item.knockBack = 3.2f;
+            Item.shoot = ModContent.ProjectileType<BestiaryYoyoProjectile>();
+            Item.shootSpeed = 16f;
 
-            Item.shoot = ProjectileID.FallingStar;
-            Item.shootSpeed = 8f;
-
-            Item.UseSound = SoundID.Item71;
-
-            Item.value = Item.sellPrice(silver: 1);
+            Item.value = Item.buyPrice(silver: 80);
             Item.rare = ItemRarityID.Blue;
         }
 
@@ -63,7 +64,7 @@ namespace AlphaBestiary.Items
                 $"Nível da arma: {level}"));
 
             tooltips.Add(new TooltipLine(Mod, "AlphaBestiaryHint",
-                "Aumenta de nível ao matar tipos diferentes de monstros usando este cajado."));
+                "Aumenta de nível ao matar tipos diferentes de monstros usando este yo-yo."));
         }
 
         public override bool Shoot(
@@ -97,8 +98,8 @@ namespace AlphaBestiary.Items
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.FallenStar, 3)
-                .AddIngredient(ItemID.Wood, 10)
+                .AddIngredient(ItemID.Wood, 12)
+                .AddIngredient(ItemID.Vine, 2)
                 .AddTile(TileID.WorkBenches)
                 .Register();
         }
