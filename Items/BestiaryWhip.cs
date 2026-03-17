@@ -11,6 +11,7 @@ using AlphaBestiary.Projectiles;
 
 namespace AlphaBestiary.Items
 {
+    // Chicote summoner que evolui com kills
     internal class BestiaryWhip : ModItem
     {
         public override void SetStaticDefaults()
@@ -23,10 +24,10 @@ namespace AlphaBestiary.Items
             Item.width = 30;
             Item.height = 30;
 
+            // Classe summoner (padrão para chicotes)
             Item.damage = 22;
             Item.DamageType = DamageClass.SummonMeleeSpeed;
             Item.knockBack = 2f;
-            Item.crit = 0;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = 30;
@@ -37,6 +38,7 @@ namespace AlphaBestiary.Items
             Item.noMelee = true;
             Item.noUseGraphic = true;
 
+            // Projétil do chicote
             Item.shoot = ModContent.ProjectileType<BestiaryWhipProjectile>();
             Item.shootSpeed = 4f;
 
@@ -48,11 +50,11 @@ namespace AlphaBestiary.Items
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
+            // Escala com nível da arma
             var modPlayer = player.GetModPlayer<AlphaBestiaryPlayer>();
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            float bonusPerLevel = 0.03f;
-            damage *= 1f + level * bonusPerLevel;
+            damage *= 1f + level * 0.03f;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -60,33 +62,21 @@ namespace AlphaBestiary.Items
             var modPlayer = Main.LocalPlayer.GetModPlayer<AlphaBestiaryPlayer>();
             int level = modPlayer.GetWeaponLevel(Item.type);
 
-            tooltips.Add(new TooltipLine(Mod, "AlphaBestiaryLevel",
+            tooltips.Add(new TooltipLine(Mod, "Level",
                 $"Nível da arma: {level}"));
 
-            tooltips.Add(new TooltipLine(Mod, "AlphaBestiaryHint",
-                "Aumenta de nível ao matar tipos diferentes de monstros usando este chicote."));
+            tooltips.Add(new TooltipLine(Mod, "Hint",
+                "Evolui ao derrotar diferentes criaturas."));
         }
 
-        public override bool Shoot(
-            Player player,
-            EntitySource_ItemUse_WithAmmo source,
-            Vector2 position,
-            Vector2 velocity,
-            int type,
-            int damage,
-            float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source,
+            Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int projIndex = Projectile.NewProjectile(
-                source,
-                position,
-                velocity,
-                type,
-                damage,
-                knockback,
-                player.whoAmI
+                source, position, velocity, type, damage, knockback, player.whoAmI
             );
 
-            Projectile proj = Main.projectile[projIndex];
+            var proj = Main.projectile[projIndex];
             var globalProj = proj.GetGlobalProjectile<AlphaBestiaryGlobalProjectile>();
 
             globalProj.sourceItemType = Item.type;
