@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace AlphaBestiary.Common.Players
+namespace BestiaryAlpha.Common.Players
 {
     public class AlphaBestiaryPlayer : ModPlayer
     {
-        // item.type da arma -> conjunto de npc.type já derrotados com ela
         public Dictionary<int, HashSet<int>> killsPerWeapon = new();
 
         public int GetWeaponLevel(int itemType)
@@ -17,12 +16,6 @@ namespace AlphaBestiary.Common.Players
             return 0;
         }
 
-        public int GetUniqueKillCount(int itemType)
-        {
-            return GetWeaponLevel(itemType);
-        }
-
-        // Retorna true se foi um tipo novo de monstro
         public bool RegisterKill(int itemType, int npcType)
         {
             if (!killsPerWeapon.TryGetValue(itemType, out var set))

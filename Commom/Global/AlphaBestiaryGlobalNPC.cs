@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using AlphaBestiary.Common.Players;
+using BestiaryAlpha.Common.Players;
 
-namespace AlphaBestiary.Common.Global
+namespace BestiaryAlpha.Common.Global
 {
     public class AlphaBestiaryGlobalNPC : GlobalNPC
     {
@@ -37,22 +37,13 @@ namespace AlphaBestiary.Common.Global
             if (npc.type <= NPCID.None)
                 return false;
 
-            // Descomente se quiser impedir farm com estátua
-            // if (npc.SpawnedFromStatue)
-            //     return false;
-
             return true;
         }
 
         public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
         {
-            base.OnHitByItem(npc, player, item, hit, damageDone);
-
-            if (!CanCountForBestiaryProgress(npc))
-                return;
-
-            if (player == null || !player.active)
-                return;
+            if (!CanCountForBestiaryProgress(npc)) return;
+            if (player == null || !player.active) return;
 
             if (IsValidModWeapon(item))
             {
@@ -63,13 +54,8 @@ namespace AlphaBestiary.Common.Global
 
         public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            base.OnHitByProjectile(npc, projectile, hit, damageDone);
-
-            if (!CanCountForBestiaryProgress(npc))
-                return;
-
-            if (projectile == null || !projectile.active)
-                return;
+            if (!CanCountForBestiaryProgress(npc)) return;
+            if (projectile == null || !projectile.active) return;
 
             var globalProj = projectile.GetGlobalProjectile<AlphaBestiaryGlobalProjectile>();
 
@@ -80,8 +66,7 @@ namespace AlphaBestiary.Common.Global
                 return;
 
             Player player = Main.player[globalProj.sourcePlayerWhoAmI];
-            if (player == null || !player.active)
-                return;
+            if (player == null || !player.active) return;
 
             lastHitItemType = globalProj.sourceItemType;
             lastHitPlayerWhoAmI = globalProj.sourcePlayerWhoAmI;
@@ -89,20 +74,12 @@ namespace AlphaBestiary.Common.Global
 
         public override void OnKill(NPC npc)
         {
-            base.OnKill(npc);
-
-            if (!CanCountForBestiaryProgress(npc))
-                return;
-
-            if (lastHitPlayerWhoAmI < 0 || lastHitPlayerWhoAmI >= Main.maxPlayers)
-                return;
-
-            if (lastHitItemType == 0)
-                return;
+            if (!CanCountForBestiaryProgress(npc)) return;
+            if (lastHitPlayerWhoAmI < 0 || lastHitPlayerWhoAmI >= Main.maxPlayers) return;
+            if (lastHitItemType == 0) return;
 
             Player player = Main.player[lastHitPlayerWhoAmI];
-            if (player == null || !player.active)
-                return;
+            if (player == null || !player.active) return;
 
             var modPlayer = player.GetModPlayer<AlphaBestiaryPlayer>();
 

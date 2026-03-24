@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AlphaBestiary.Projectiles
+namespace BestiaryAlpha.Common.Global.Projectiles
 {
     // Projétil do martelo carregável
     internal class BestiaryHammerProjectile : ModProjectile

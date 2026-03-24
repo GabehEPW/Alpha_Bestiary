@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace AlphaBestiary.Common.Global
+namespace BestiaryAlpha.Common.Global
 {
     public class AlphaBestiaryGlobalProjectile : GlobalProjectile
     {
