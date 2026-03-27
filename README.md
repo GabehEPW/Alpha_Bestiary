@@ -1,4 +1,4 @@
-🧪 Terraria Progressive Weapons Mod
+🧪 Bestiary Alpha
 Meu primeiro mod sendo desenvolvido para o Terraria, com foco em progressão dinâmica e incentivo à exploração completa do jogo.
 
 📌 Sobre o Mod
